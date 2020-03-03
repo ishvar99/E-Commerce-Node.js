@@ -1,6 +1,7 @@
 const express=require('express');
 var app=express();
-const path=require('path')
+const path=require('path');
+const rootDir=require('../utils/path');
 const bodyParser=require('body-parser');
 var adminRoutes=require('../routes/admin');
 var shopRoutes=require('../routes/shop');
@@ -10,7 +11,7 @@ app.use('/admin',adminRoutes);
 app.use(shopRoutes);
 
 app.use('/',(req,res,next)=>{
-    res.status(404).sendFile(path.join(__dirname,"../","views","404.html"))
+    res.status(404).sendFile(path.join(rootDir,"..","views","404.html")) //__dirname gives current directory
 })
 
 app.listen(LOCAL_PORT,()=>{
