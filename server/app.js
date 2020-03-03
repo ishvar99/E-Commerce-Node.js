@@ -7,6 +7,7 @@ var adminRoutes=require('../routes/admin');
 var shopRoutes=require('../routes/shop');
 const LOCAL_PORT=3000;
 app.use(bodyParser.urlencoded({extended:false}));
+app.use(express.static(path.join(__dirname,'..','public')))
 app.use('/admin',adminRoutes);
 app.use(shopRoutes);
 
