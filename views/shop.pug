@@ -14,14 +14,18 @@ html(lang="en")
                     li.main-header__item
                         a(href="/admin/add-product") Add Product
     main
-        div.grid
-            article.card.product-item
-                header.card__header
-                    h1.product__title Great Book
-                div.card__image
-                    img(src="https://www.incimages.com/uploaded_files/image/970x450/getty_883231284_200013331818843182490_335833.jpg" alt="A Book")
-                div.card__content
-                    h2.product__price $19.99
-                    p.product__description A very interesting book about so many even more interesting things!
-                div.card__actions
-                    button.btn Add to Cart
+        if products.length>0
+            div.grid
+                each product in products
+                    article.card.product-item
+                        header.card__header
+                            h1.product__title #{product.title}
+                        div.card__image
+                            img(src="https://www.incimages.com/uploaded_files/image/970x450/getty_883231284_200013331818843182490_335833.jpg" alt="A Book")
+                        div.card__content
+                            h2.product__price $19.99
+                            p.product__description A very interesting book about so many even more interesting things!
+                        div.card__actions
+                            button.btn Add to Cart
+        else
+            h1 No Products
