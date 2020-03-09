@@ -10,12 +10,13 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname,'..','public')))
 app.use('/admin',adminData.routes);
 app.use(shopRoutes);
-app.set('view engine','pug');
+// app.set('view engine','pug');
+app.set('view engine','ejs');
 app.set('views', path.join(__dirname,'..','views'));
 
 app.use('/',(req,res,next)=>{
     // res.status(404).sendFile(path.join(rootDir,"..","views","404.html")) //__dirname gives current directory
-    res.render("404")
+    res.render("404",{pageTitle:"page not found"})
 })
 
 app.listen(LOCAL_PORT,()=>{

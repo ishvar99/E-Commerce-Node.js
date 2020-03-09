@@ -6,7 +6,7 @@ const rootDir=require('../utils/path');
 
 router.get("/",(req,res,next)=>{
     // res.sendFile(path.join(rootDir,'..','views','shop.html'));
-    res.render('shop',{products:adminData.products});
+    res.render('shop',{products:adminData.products,path:'/admin/shop',pageTitle:'shop'});
 })
 
 module.exports=router;
