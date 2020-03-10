@@ -3,8 +3,11 @@ const fs=require('fs')
 const mainDirectory=require('../utils/path');
 const p=path.join(mainDirectory,'..','data','products.json');
 module.exports= class Product{
-    constructor(title){
+    constructor(title,imageUrl,price,description){
         this.title=title;
+        this.imageUrl=imageUrl;
+        this.price=price;
+        this.description=description;
     }
     save(){
         fs.readFile(p,(err,fileContent)=>{
