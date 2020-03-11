@@ -10,6 +10,7 @@ module.exports= class Product{
         this.description=description;
     }
     save(){
+        this.id=Math.random().toString();
         fs.readFile(p,(err,fileContent)=>{
             let products=[];
             if(!err){
@@ -28,5 +29,13 @@ module.exports= class Product{
         }
         const products=fs.readFileSync(p);
         return JSON.parse(products);
+    }
+    static findById(prodId,cb){
+        let products=[];
+        fs.readFile(p,(err,fileContent)=>{
+            products=JSON.parse(fileContent);
+            const product =products.find(p=>p.id===prodId);
+            cb(product);
+        })
     }
 }
