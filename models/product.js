@@ -3,24 +3,38 @@ const fs=require('fs')
 const mainDirectory=require('../utils/path');
 const p=path.join(mainDirectory,'..','data','products.json');
 module.exports= class Product{
-    constructor(title,imageUrl,price,description){
+    constructor(id,title,imageUrl,price,description){
+        this.id=id;
         this.title=title;
         this.imageUrl=imageUrl;
         this.price=price;
         this.description=description;
     }
     save(){
-        this.id=Math.random().toString();
         fs.readFile(p,(err,fileContent)=>{
             let products=[];
-            if(!err){
-                console.log(fileContent)
-              products= JSON.parse(fileContent)
+            let updatedProducts=[];
+            if(this.id){
+              if(!err)
+                  products=JSON.parse(fileContent)
+              let existingProductIndex=products.findIndex(prod=>prod.id===this.id);
+              console.log(existingProductIndex)
+            updatedProducts=[...products];
+              updatedProducts[existingProductIndex]=this;
+              fs.writeFile(p,JSON.stringify(updatedProducts),(err)=>{
+                console.log(err);   
+            })
             }
+            else{
+            this.id=Math.random().toString();
+            
+            if(!err)
+              products= JSON.parse(fileContent)
             products.push(this);
             fs.writeFile(p,JSON.stringify(products),(err)=>{
                 
             })
+        }
         })
     }
     static fetchAll(){ //static method is applied on the class not on the instance
