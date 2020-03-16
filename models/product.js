@@ -37,6 +37,19 @@ module.exports= class Product{
         }
         })
     }
+  static  deleteById(id){
+        let products=[];
+        let updatedProducts=[];
+        fs.readFile(p,(err,fileContent)=>{
+            if(!err){
+                products=JSON.parse(fileContent);
+                updatedProducts=products.filter(prod=>prod.id!==id);
+            }
+            fs.writeFile(p,JSON.stringify(updatedProducts),(err)=>{
+                console.log(err);
+            })
+        })
+    }
     static fetchAll(){ //static method is applied on the class not on the instance
         if(!fs.existsSync(p)){
             return [];
