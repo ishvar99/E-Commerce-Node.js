@@ -1,5 +1,34 @@
-<%- include('../partials/header.ejs') %>
-
-<%- include('../partials/navigation.ejs') %>
-
-<%- include('../partials/footer.ejs') %>
+<%- include('../partials/header.ejs')%>
+<%- include('../partials/navigation.ejs')%>
+<main>
+    <%if(cart['products'].length>0){%>
+    <div class="grid">
+        <%(cart['products']).forEach(function(cartProduct){%>
+            <%const foundProduct=products.find(product=>product.id===cartProduct.id)%>
+            <%if(!foundProduct){return}%>
+        <article class="card product-item">
+            <header class="card__header">
+                <h1 class="product__title"><%= foundProduct.title %></h1>
+            </header>
+            <div class="card__image">
+                <img src="<%=foundProduct.imageUrl%>" alt="A Book">
+            </div>
+            <div class="card__content">
+                <h2 class="product__price">$<%=foundProduct.price%></h2>
+                <p class="product__description"><%=foundProduct.description%></p>
+            </div>
+            <div class="card__content">
+                <h3 class="product__quantity">Quantity: <%=cartProduct.qty%></h3>     
+                <div style="text-align: center;">
+                  <%-include("../partials/remove-from-cart",{product:cartProduct})%> 
+                </div>          
+            </div>
+         
+        </article>
+        <%})%>
+    </div> 
+    <%}else{%>
+    <h1>CART IS EMPTY</h1>
+    <%}%>
+</main>
+<%- include('../partials/footer.ejs')%>

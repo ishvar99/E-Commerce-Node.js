@@ -17,12 +17,22 @@ exports.getIndex=(req,res,next)=>{
 }
 
 exports.getCart=(req,res,next)=>{
-    res.render('shop/cart',{path:'/cart',pageTitle:'cart'})
+
+    const cart=Cart.fetchAll();
+    const products=Product.fetchAll();
+    res.render('shop/cart',{cart,products,path:'/cart',pageTitle:'cart'})
 }
 exports.postCart=(req,res,next)=>{
     let prodId=req.body.productId;
     Product.findById(prodId,product=>{
         Cart.addProduct(product.id,product.price);
+    });
+    res.redirect('/cart');
+}
+exports.postDeleteCart=(req,res,next)=>{
+    let prodId=req.body.productId;
+    Product.findById(prodId,product=>{
+        Cart.deleteProduct(product.id,product.price);
     });
     res.redirect('/cart');
 }
