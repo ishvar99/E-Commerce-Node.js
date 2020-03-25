@@ -4,7 +4,7 @@ exports.getAddProduct=(req,res,next)=>{
     res.render('admin/add-product',{path:'/admin/add-product',pageTitle:"admin add product",editing:false})
 }
 exports.postAddProduct=(req,res,next)=>{
-    Product.create({
+    req.user.createProduct({
         title:req.body.title,
         imageUrl:req.body.imageUrl,
         price:req.body.price,
@@ -37,25 +37,50 @@ exports.postEditProduct=(req,res,next)=>{
     const price=req.body.price;
     const imageUrl=req.body.imageUrl;
     const description=req.body.description;
-    Product.findAll({where:{id:prodId}})
-    .then((products)=>{
-        Product.update({title,price,
-          imageUrl,
-          description
-      },{where:{
-          id:products[0].id
-      }}).then(()=>{
-        res.redirect('/products');
-      }).catch((err)=>console.log(err))
+    // Product.findAll({where:{id:prodId}})
+    // .then((products)=>{
+    //     Product.update({title,price,
+    //       imageUrl,
+    //       description
+    //   },{where:{
+    //       id:products[0].id
+    //   }}).then(()=>{
+    //     res.redirect('/products');
+    //   }).catch((err)=>console.log(err))
+    // })
+    // .catch((err)=>{
+    //     console.log(err);
+    // })
+    Product.findByPk(prodId)
+    .then((product)=>{
+        product.title=title;
+        product.price=price;
+        product.imageUrl=imageUrl;
+        product.description=description;
+        return product.save();
     })
-    .catch((err)=>{
-        console.log(err);
+    .then(()=>{
+        res.redirect('/');
     })
+    .catch((err)=>console.log(err));
 }
 exports.postDeleteProduct=(req,res,next)=>{
     let prodId=req.body.prodId;
-    Product.deleteById(prodId);
-    res.redirect('/products')
+    // Product.destroy({
+    //     where:{
+    //         id:prodId
+    //     }
+    // }).then(()=>{
+    //     res.redirect('/products')
+    // })
+  Product.findByPk(prodId)
+  .then((product)=>{
+    return product.destroy()
+  })
+  .then(()=>{
+      res.redirect('/')
+  })
+  .catch((err)=>console.log(err))
 }
 exports.getProducts=(req,res,next)=>{
 Product.findAll()
